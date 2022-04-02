@@ -13,7 +13,9 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'dracula/vim'
-"Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'morhetz/gruvbox'
@@ -26,7 +28,7 @@ call plug#end()
 let mapleader = " "
 
 inoremap jk <ESC>
-nmap <C-n> :NERDTreeToggle<CR>
+nmap <C-d> :NERDTreeToggle<CR>
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 
@@ -49,6 +51,15 @@ map / <Plug>(easymotion-sn)
 " open NERDTree automatically
 "autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * NERDTree
+" Lock arrow keyboard
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+" Multi select
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
 
 let g:NERDTreeGitStatusWithFlags = 1
 "let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -68,13 +79,13 @@ let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeIgnore = ['^node_modules$']
 
 " vim-prettier
-"let g:prettier#quickfix_enabled = 0
-"let g:prettier#quickfix_auto_focus = 0
+let g:prettier#quickfix_enabled = 1
+let g:prettier#quickfix_auto_focus = 1
 " prettier command for coc
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " run prettier on save
-"let g:prettier#autoformat = 0
-"autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+let g:prettier#autoformat = 1
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 
 " ctrlp
@@ -111,7 +122,7 @@ function! SyncTree()
 endfunction
 
 " Highlight currently open buffer in NERDTree
-autocmd BufEnter * call SyncTree()
+" autocmd BufEnter * call SyncTree()
 
 " coc config
 let g:coc_global_extensions = [
@@ -181,6 +192,39 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+" fzf.vim
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+ let g:lightline = {
+   \ 'colorscheme': 'dracula',
+   \ 'active': {
+   \   'left': [ [ 'mode', 'paste' ],
+   \             [ 'gitbranch', 'cocstatus', 'readonly', 'filename', 'modified' ] ],
+   \   'right': [ [ 'lineinfo', 'percent' ],
+   \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+   \ },
+   \ 'separator': { 'left': '', 'right': '' },
+   \ 'subseparator': { 'left': '', 'right': '' },
+   \ 'component_function': {
+   \   'gitbranch': 'fugitive#head',
+   \   'cocstatus': 'coc#status'
+   \ },
+   \ }
+
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
 
@@ -211,9 +255,9 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
-" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-d> <Plug>(coc-range-select)
-xmap <silent> <C-d> <Plug>(coc-range-select)
+" Use <C-s> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
