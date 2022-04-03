@@ -21,6 +21,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'morhetz/gruvbox'
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'dart-lang/dart-vim-plugin'
+Plug 'vim-ruby/vim-ruby'
 
 " Initialize plugin system
 call plug#end()
@@ -34,6 +35,11 @@ nmap ++ <plug>NERDCommenterToggle
 
 nnoremap <Leader>/ :vsplit<CR>
 nnoremap <Leader>\ :split<CR>
+
+nmap = :res +2<CR> " increase pane by 2
+nmap - :res -2<CR> " decrease pane by 2
+nmap ] :vertical res +2<CR> " vertical increase pane by 2
+nmap [ :vertical res -2<CR> " vertical decrease pane by 2
 
 map <C-h> :nohl<CR>
 
@@ -95,14 +101,63 @@ let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclu
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
-set relativenumber
-
 set smarttab
 set cindent
+set backspace=2   " Backspace deletes like most programs in insert mode
+set nobackup
+set nowritebackup
+set noswapfile
+set history=50
+set ruler         " show the cursor position all the time
+set showcmd       " display incomplete commands
+set incsearch     " do incremental searching
+set laststatus=2  " Always display the status line
+set autowrite     " Automatically :write before running commands
+
+set autoindent
+set smartindent
+
+set autoread
+set autowrite
+
+" Softtabs, 2 spaces
 set tabstop=2
 set shiftwidth=2
-" always uses spaces instead of tab characters
+set shiftround
 set expandtab
+
+" Make it obvious where 80 characters is
+set textwidth=80
+set colorcolumn=+1
+
+" Display extra whitespace
+" set list listchars=tab:»·,trail:·,nbsp:·
+
+" Use one space, not two, after punctuation.
+set nojoinspaces
+
+" Numbers
+set relativenumber
+set number
+set numberwidth=5
+
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" Autocomplete with dictionary words when spell check is on
+set complete+=kspell
+
+" Always use vertical diffs
+set diffopt+=vertical
+
+" Copy to clipboard
+set clipboard=unnamed
+
+set lazyredraw
+set termguicolors
+set encoding=UTF-8
+set guifont=DroidSansMono\ Nerd\ Font:h11
 
 colorscheme dracula
 
