@@ -59,7 +59,7 @@ set background=dark
 
 set rtp+=/opt/homebrew/opt/fzf
 
-# Icon for project
+" Icon for project
 set encoding=UTF-8
 set guifont=DroidSansMono\ Nerd\ Font:h11
 
